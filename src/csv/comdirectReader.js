@@ -1,3 +1,12 @@
+import foreignTransactionParser from "./parser/foreignTransactionParser";
+import ownTransactionParser from "./parser/ownTransactionParser";
+import cardTransactionParser from "./parser/cardDisposalTransactionParser";
+import creditCardPayoffParser from "./parser/creditCardPayoffParser";
+import creditCardTransactionParser from "./parser/creditCardTransactionParser";
+import creditCardForeignCurrencyFeeParser from "./parser/creditCardForeignCurrencyFeeParser";
+import creditCartBillParser from "./parser/creditCartBillParser";
+import creditCardCarryoverParser from "./parser/creditCardCarryoverParser";
+
 const startAccountRegex = /"Umsätze (.+) ";"Zeitraum: ([\d])+ Tage";/;
 const checkingTransactionRegex = /"([\d]{2}.[\d]{2}.[\d]{4})";"([\d]{2}.[\d]{2}.[\d]{4})";"([^"]*)";("([^"]*)";)?"([^"]*)";"(-?[\d.,]+)";/;
 const dateRegex = /([\d]{2}).([\d]{2}).([\d]{4})/;
@@ -10,7 +19,7 @@ const DAY = 1;
 const VALUE_DATE = 1;
 const BOOKING_DATE = 2;
 const PROCESS = 3;
-const text = 6;
+const TEXT = 6;
 const VALUE = 7;
 
 function parseDate(dateString) {
@@ -24,15 +33,22 @@ function parseNumber(numberString) {
     return parseFloat(numberString);
 }
 
+const parsers = [
+    ownTransactionParser,
+    foreignTransactionParser,
+    cardTransactionParser,
+    creditCardPayoffParser,
+    creditCardTransactionParser,
+    creditCardForeignCurrencyFeeParser,
+    creditCartBillParser,
+    creditCardCarryoverParser];
+
 function parseText(text) {
-    const match = textRegex.exec(text);
-    return {
-        payee: {
-            name: match[3]
-        },
-        text: match[4],
-        reference: match[5]
-    };
+    let parser = parsers.find(parser => parser.canParse(text));
+    if (!parser) {
+        throw new Error(`Cannot parse text ${text}`);
+    }
+    return parser.parse(text);
 }
 
 function firstLineIsInvalid(index, line) {
@@ -52,13 +68,15 @@ function readAccount(line) {
 function readTransaction(line) {
     let match = checkingTransactionRegex.exec(line);
 
-    return {
+
+    let transaction = {
         valueDate: parseDate(match[VALUE_DATE]),
         bookingDate: parseDate(match[BOOKING_DATE]),
         process: match[PROCESS],
-        ...parseText(match[text]),
         value: parseNumber(match[VALUE])
     };
+    Object.assign(transaction, parseText(match[TEXT]));
+    return transaction;
 }
 
 function isCheckingTransaction(line) {
