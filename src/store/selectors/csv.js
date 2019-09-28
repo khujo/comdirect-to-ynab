@@ -1,0 +1,1 @@
+export const getAccounts = state => state.csv.accounts;
