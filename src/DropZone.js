@@ -12,17 +12,27 @@ function handleDrag(handler) {
     }
 }
 
+
+
 function DropZone({addAccounts}) {
 
     const [isDraggingOver, setDraggingOver] = useState(false);
 
-    let handleDrop = function(event) {
-        event.preventDefault();
-        setDraggingOver(false);
-        read(event.dataTransfer.files)
+    let readFiles = function(files) {
+        return read(files)
             .then(accounts => {
                 addAccounts(accounts)
             }).catch(error => console.log(error));
+    };
+
+    let handleDrop = function(event) {
+        event.preventDefault();
+        setDraggingOver(false);
+        readFiles(event.dataTransfer.files);
+    };
+
+    let handleInputChanged = function (event) {
+        readFiles(event.target.files);
     };
 
     return <div
@@ -31,7 +41,8 @@ function DropZone({addAccounts}) {
             onDragOver={handleDrag(() => setDraggingOver(true))}
             onDragLeave={handleDrag(() => setDraggingOver(false))}
             onDrop={handleDrop}>
-        Drop CSV file here
+        Drop CSV file here&nbsp;
+        <input type="file" onChange={handleInputChanged} />
     </div>
 }
 
