@@ -1,5 +1,5 @@
 {
-  "name": "ynab-fints-frontend",
+  "name": "comdirect-csv-to-ynab",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
