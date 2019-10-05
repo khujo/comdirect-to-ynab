@@ -1,5 +1,5 @@
 {
-  "name": "comdirect-csv-to-ynab",
+  "name": "comdirect-to-ynab",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
