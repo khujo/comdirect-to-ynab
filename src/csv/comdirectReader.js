@@ -6,6 +6,7 @@ import creditCardTransactionParser from "./parser/creditCardTransactionParser";
 import creditCardForeignCurrencyFeeParser from "./parser/creditCardForeignCurrencyFeeParser";
 import creditCartBillParser from "./parser/creditCartBillParser";
 import creditCardCarryoverParser from "./parser/creditCardCarryoverParser";
+import uuidv1 from 'uuid/v1';
 
 const startAccountRegex = /"Umsätze (.+) ";"Zeitraum: ([\d])+ Tage";/;
 const checkingTransactionRegex = /"([\d]{2}.[\d]{2}.[\d]{4})";"([\d]{2}.[\d]{2}.[\d]{4})";"([^"]*)";("([^"]*)";)?"([^"]*)";"(-?[\d.,]+)";/;
@@ -24,7 +25,7 @@ const VALUE = 7;
 
 function parseDate(dateString) {
     let match = dateRegex.exec(dateString);
-    return new Date(match[YEAR], match[MONTH]-1, match[DAY]);
+    return new Date(match[YEAR], match[MONTH]-1, match[DAY], 12);
 }
 
 function parseNumber(numberString) {
@@ -52,7 +53,7 @@ function parseText(text) {
 }
 
 function firstLineIsInvalid(index, line) {
-    return index === 0 && line !== ';';
+    return index === 0 && (line !== ';' && line.trim() !== '');
 }
 
 function startsNewAccount(line) {
@@ -61,7 +62,7 @@ function startsNewAccount(line) {
 
 function readAccount(line) {
     let name = startAccountRegex.exec(line)[1];
-    let account = {name, transactions: []};
+    let account = {name, id: uuidv1(), transactions: []};
     return account;
 }
 
@@ -73,9 +74,9 @@ function readTransaction(line) {
         valueDate: parseDate(match[VALUE_DATE]),
         bookingDate: parseDate(match[BOOKING_DATE]),
         process: match[PROCESS],
-        value: parseNumber(match[VALUE])
+        value: parseNumber(match[VALUE]),
+        ...parseText(match[TEXT])
     };
-    Object.assign(transaction, parseText(match[TEXT]));
     return transaction;
 }
 
@@ -97,7 +98,7 @@ function readAccounts(text) {
             accounts[accounts.length-1].transactions.push(readTransaction(line));
         }
     });
-    return accounts;
+    return accounts.filter(account => account.transactions.length > 0);
 }
 
 function readFile(file) {

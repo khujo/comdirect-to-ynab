@@ -6,6 +6,7 @@ import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import {Provider} from "react-redux";
 import {ynab} from './store/reducers/ynab';
 import {csv} from './store/reducers/csv';
+import {map} from "./store/reducers/map";
 import {loadBudgets, login} from "./store/actions/ynab";
 import thunkMiddleware from 'redux-thunk';
 import {ynabMiddleware} from "./store/middleware/ynab";
@@ -14,7 +15,7 @@ import YNABApp from "./containers/YNABApp";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-let store = createStore(combineReducers({ynab, csv}), composeEnhancers(applyMiddleware(thunkMiddleware, ynabMiddleware)));
+let store = createStore(combineReducers({ynab, csv, map}), composeEnhancers(applyMiddleware(thunkMiddleware, ynabMiddleware)));
 
 let accessTokenPattern = /#access_token=([a-z0-9-]+)/;
 if (window.location.hash && accessTokenPattern.test(window.location.hash)) {

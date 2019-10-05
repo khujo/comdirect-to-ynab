@@ -1,0 +1,1 @@
+export const getMapping = state => state.map;

@@ -8,7 +8,7 @@ function parse(text) {
     let match = regex.exec(text);
     return {
         payee: {
-            name: "Bargeld"
+            name: null
         },
         text: match[1],
         reference: match[2]

@@ -13,6 +13,7 @@
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
     "source-map-explorer": "^2.0.1",
+    "uuid": "^3.3.3",
     "ynab": "^1.16.0"
   },
   "scripts": {
