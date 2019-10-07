@@ -28,7 +28,8 @@ function login(dispatch, accessToken) {
 
 function loadBudgets(dispatch, ynabClient) {
     return ynabClient.budgets.getBudgets().then(response => {
-        let budgets = response.data.budgets;
+        let budgets = response.data.budgets.slice();
+        budgets.sort((a, b) => new Date(b['last_modified_on']).getTime() - new Date(a['last_modified_on']).getTime());
         Promise.all(budgets.map(budget => ynabClient.accounts.getAccounts(budget.id)))
             .then(accountsResponse => {
                 accountsResponse

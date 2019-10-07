@@ -35,15 +35,20 @@ function DropZone({addAccounts}) {
         readFiles(event.target.files);
     };
 
-    return <div
-            style={{border: `2px dashed ${getBorderColor(isDraggingOver)}`, minHeight: '100px'}}
-            className="d-flex align-items-center justify-content-center"
-            onDragOver={handleDrag(() => setDraggingOver(true))}
-            onDragLeave={handleDrag(() => setDraggingOver(false))}
-            onDrop={handleDrop}>
-        Drop CSV file here&nbsp;
-        <input type="file" onChange={handleInputChanged} />
-    </div>
+    let style = {
+        border: `2px dashed ${getBorderColor(isDraggingOver)}`,
+        padding: '2.5rem',
+        backgroundColor: isDraggingOver ? '#f4f4f4' : '#fff'
+    };
+    return (<div
+                style={style}
+                className="text-center"
+                onDragOver={handleDrag(() => setDraggingOver(true))}
+                onDragLeave={handleDrag(() => setDraggingOver(false))}
+                onDrop={handleDrop}>
+                <p>Drop CSV file here</p>
+                <p><input type="file" onChange={handleInputChanged} /></p>
+            </div>);
 }
 
 export default DropZone;
