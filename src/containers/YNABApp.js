@@ -9,7 +9,7 @@ let mapStateToProps = state => ({
     results: importResults(state),
     getBudget: bugetId => budget(state, bugetId),
     showAccounts: accounts(state).length > 0 && !importFinished(state),
-    showCSVDropZone: accessToken(state) && accounts(state).length === 0 && !importFinished(state),
+    showCSVDropZone: accessToken(state) && accounts(state).length === 0,
     showResults: importFinished(state)
 });
 

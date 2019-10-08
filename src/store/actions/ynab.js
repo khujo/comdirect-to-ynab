@@ -30,6 +30,6 @@ export function sendTransations() {
     return {type: YNAB_SEND_TRANSACTIONS};
 }
 
-export function addImportResult(budget, result) {
-    return {type: YNAB_ADD_IMPORT_RESULT, budget, result, successful: true};
+export function addImportResult(budget, result, futureTransactions, successful = true) {
+    return {type: YNAB_ADD_IMPORT_RESULT, budget, result, futureTransactions, successful};
 }

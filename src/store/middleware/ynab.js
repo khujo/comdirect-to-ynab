@@ -103,8 +103,12 @@ function sendTransactions(state, ynabClient, dispatch) {
     let imports = [];
     for (let budget in budgets) {
         let transactions = mapTransactions(budgets[budget].accounts, state, transactionCache);
+        let futureTransactions = transactions.length;
+        transactions = transactions.filter(transaction => transaction.date.getTime() < new Date().getTime());
+        futureTransactions = futureTransactions-transactions.length;
         let promise = ynabClient.transactions.createTransactions(budget, {transactions})
-            .then(result => dispatch(addImportResult(budget, result)));
+            .then(result => dispatch(addImportResult(budget, result, futureTransactions)))
+            .catch(() => dispatch(addImportResult(budget, null, null,false)));
         imports.push(promise);
     }
     Promise.all(imports).then(() => dispatch(importFinished()));
