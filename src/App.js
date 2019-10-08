@@ -33,7 +33,7 @@ function App({accounts, results, showCSVDropZone, showAccounts, showResults, get
                 <div className="col-lg-2" />
                 <div className="col-lg-8">
                     {showCSVDropZone ? <CSVDropZone/> : null}
-                    {accounts.map(account => <YNABAccountRow account={account} />)}
+                    {accounts.map(account => <YNABAccountRow account={account} key={account.id} />)}
                     {showAccounts ? <div className="text-right mt-3"><YNABSendToYNABButton /></div> : null}
                 </div>
                 <div className="col-lg-2" />

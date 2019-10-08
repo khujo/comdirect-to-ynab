@@ -11,7 +11,6 @@ import uuidv1 from 'uuid/v1';
 const startAccountRegex = /"Umsätze (.+) ";"Zeitraum: ([\d])+ Tage";/;
 const checkingTransactionRegex = /"([\d]{2}.[\d]{2}.[\d]{4})";"([\d]{2}.[\d]{2}.[\d]{4})";"([^"]*)";("([^"]*)";)?"([^"]*)";"(-?[\d.,]+)";/;
 const dateRegex = /([\d]{2}).([\d]{2}).([\d]{4})/;
-const textRegex = / ((Empfänger|Auftraggeber): (.*))?(Buchungstext: (.*))? Ref. (.*) /;
 
 const YEAR = 3;
 const MONTH = 2;
