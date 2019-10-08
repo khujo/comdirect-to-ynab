@@ -79,6 +79,7 @@ function App({accounts, results, showCSVDropZone, showAccounts, showResults, get
                         This website reads financial transactions from CSV files exported from the comdirect Bank and sends those transactions to YNAB using their <a href="https://api.youneedabudget.com/">API</a>.
                         The CSV files are parsed in the browser and are thus not sent to any server. The transactions read from the files are send to the YNAB servers when you click "Send to YNAB".
                         Please refer to the <a href="https://www.youneedabudget.com/privacy-policy/">YNAB Privacy Policy</a> for further information.
+                        Data obtained from the YNAB API will not knowingly be passed to any third party.
                     </p>
                     <p className="small">
                         This site is hosted using GitHub Pages. GitHub may save technical information, including your IP address. Please refer to the <a href="https://help.github.com/en/articles/github-privacy-statement">GitHub Privacy Policy</a>.
