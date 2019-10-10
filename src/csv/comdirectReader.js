@@ -7,6 +7,7 @@ import creditCardForeignCurrencyFeeParser from "./parser/creditCardForeignCurren
 import creditCartBillParser from "./parser/creditCartBillParser";
 import creditCardCarryoverParser from "./parser/creditCardCarryoverParser";
 import uuidv1 from 'uuid/v1';
+import fallbackParser from "./parser/fallbackParser";
 
 const startAccountRegex = /"Umsätze (.+) ";"Zeitraum: ([\d])+ Tage";/;
 const checkingTransactionRegex = /"([\d]{2}.[\d]{2}.[\d]{4})";"([\d]{2}.[\d]{2}.[\d]{4})";"([^"]*)";("([^"]*)";)?"([^"]*)";"(-?[\d.,]+)";/;
@@ -41,7 +42,8 @@ const parsers = [
     creditCardTransactionParser,
     creditCardForeignCurrencyFeeParser,
     creditCartBillParser,
-    creditCardCarryoverParser];
+    creditCardCarryoverParser,
+    fallbackParser];
 
 function parseText(text) {
     let parser = parsers.find(parser => parser.canParse(text));
