@@ -9,8 +9,8 @@ import creditCardCarryoverParser from "./parser/creditCardCarryoverParser";
 import uuidv1 from 'uuid/v1';
 import fallbackParser from "./parser/fallbackParser";
 
-const startAccountRegex = /"Umsätze (.+) ";"Zeitraum: ([\d])+ Tage";/;
-const checkingTransactionRegex = /"([\d]{2}.[\d]{2}.[\d]{4})";"([\d]{2}.[\d]{2}.[\d]{4})";"([^"]*)";("([^"]*)";)?"([^"]*)";"(-?[\d.,]+)";/;
+const startAccountRegex = /"Umsätze (.+)";"Zeitraum: ([\d])+ Tage";/;
+const checkingTransactionRegex = /"([\d]{2}.[\d]{2}.[\d]{4})";"([\d]{2}.[\d]{2}.[\d]{4})";"([^"]*)";("([^"]*)";)?"?([^"]*)"?;?"(-?[\d.,]+)";/;
 const dateRegex = /([\d]{2}).([\d]{2}).([\d]{4})/;
 
 const YEAR = 3;
@@ -62,7 +62,7 @@ function startsNewAccount(line) {
 }
 
 function readAccount(line) {
-    let name = startAccountRegex.exec(line)[1];
+    let name = startAccountRegex.exec(line)[1].trim();
     let account = {name, id: uuidv1(), transactions: []};
     return account;
 }

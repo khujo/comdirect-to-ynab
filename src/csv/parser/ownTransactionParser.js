@@ -1,4 +1,4 @@
-const regex = / (Empfänger|Auftraggeber): (.+)Kto\/IBAN: (\w+) BLZ\/BIC: (\w+)( Buchungstext: (.+))? Ref\. (.+)/;
+const regex = / ?(Empfänger|Auftraggeber): (.+)Kto\/IBAN: (\w+) BLZ\/BIC: (\w+)([\W]*Buchungstext: (.+))? Ref\. (.+)/;
 
 function canParse(text) {
     return regex.test(text);
